@@ -1,6 +1,8 @@
 package com.example.customvideoframe;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.camera2.CameraManager;
 import android.util.Log;
 
@@ -13,9 +15,11 @@ import com.twilio.video.VideoFrame;
 
 public class CustomCamera2Capture extends Camera2Capturer {
 
-    public static final String TAG = "CustomCamera2Capture";
+    private static final String TAG = "CustomCamera2Capture";
 
-    VideoCapturer.Listener myVideoCapturerListener = new VideoCapturer.Listener() {
+    private VideoCapturer.Listener yourListener;
+
+    private VideoCapturer.Listener myVideoCapturerListener = new VideoCapturer.Listener() {
         @Override
         public void onCapturerStarted(boolean success) {
             Log.d(TAG, "onCapturerStarted: ");
@@ -25,6 +29,9 @@ public class CustomCamera2Capture extends Camera2Capturer {
         public void onFrameCaptured(@NonNull VideoFrame videoFrame) {
             Log.d(TAG, "onFrameCaptured: ");
             //todo process videoFrame
+//            videoFrame.imageBuffer == null
+
+            yourListener.onFrameCaptured(videoFrame);
         }
     };
 
@@ -45,6 +52,7 @@ public class CustomCamera2Capture extends Camera2Capturer {
 
     @Override
     public void startCapture(@NonNull VideoFormat captureFormat, @NonNull VideoCapturer.Listener videoCapturerListener) {
+        yourListener = videoCapturerListener;
         super.startCapture(captureFormat, myVideoCapturerListener);
     }
 }

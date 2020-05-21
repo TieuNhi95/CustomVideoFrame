@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraMetadata
 import android.os.Build
 import android.util.Log
 import android.util.Pair
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import com.twilio.video.Camera2Capturer
 import com.twilio.video.CameraCapturer

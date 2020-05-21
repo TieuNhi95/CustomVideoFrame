@@ -2,13 +2,13 @@ package com.example.customvideoframe
 
 import android.Manifest
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.twilio.video.CameraCapturer
-import com.twilio.video.LocalAudioTrack
 import com.twilio.video.LocalVideoTrack
 import com.twilio.video.VideoView
 
@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private var localVideoTrack: LocalVideoTrack? = null
     private var localVideoView: VideoView? = null
+    private var img: ImageView? = null
 
     private val cameraCapturerCompat by lazy {
         CameraCapturerCompat(this, getAvailableCameraSource())
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         localVideoView = findViewById(R.id.videoView)
+        img = findViewById(R.id.img)
 
         requestPermissionForCameraAndMicrophone()
 
@@ -64,16 +66,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestPermissionForCameraAndMicrophone() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.RECORD_AUDIO)) {
-            Toast.makeText(this,
-                    "R.string.permissions_needed",
-                    Toast.LENGTH_LONG).show()
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.RECORD_AUDIO
+            )
+        ) {
+            Toast.makeText(
+                this,
+                "R.string.permissions_needed",
+                Toast.LENGTH_LONG
+            ).show()
         } else {
             ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO),
-                    CAMERA_MIC_PERMISSION_REQUEST_CODE)
+                this,
+                arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO),
+                CAMERA_MIC_PERMISSION_REQUEST_CODE
+            )
         }
     }
 

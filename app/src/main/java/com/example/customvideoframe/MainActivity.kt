@@ -20,9 +20,7 @@ class MainActivity : AppCompatActivity() {
     private var localVideoView: VideoView? = null
     private var img: ImageView? = null
 
-    private val cameraCapturerCompat by lazy {
-        CameraCapturerCompat(this, getAvailableCameraSource())
-    }
+    private var cameraCapturerCompat: CameraCapturerCompat? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         requestPermissionForCameraAndMicrophone()
 
+        cameraCapturerCompat = CameraCapturerCompat(this, getAvailableCameraSource(), img!!)
     }
 
     private fun getAvailableCameraSource(): CameraCapturer.CameraSource {
@@ -45,9 +44,11 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         localVideoTrack = if (localVideoTrack == null && checkPermissionForCameraAndMicrophone()) {
-            LocalVideoTrack.create(this,
-                    true,
-                    cameraCapturerCompat.videoCapturer)
+            LocalVideoTrack.create(
+                this,
+                true,
+                cameraCapturerCompat?.videoCapturer!!
+            )
         } else {
             localVideoTrack
         }

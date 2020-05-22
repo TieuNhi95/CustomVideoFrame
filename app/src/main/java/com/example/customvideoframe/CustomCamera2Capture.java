@@ -1,8 +1,6 @@
 package com.example.customvideoframe;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.hardware.camera2.CameraManager;
 import android.util.Log;
 

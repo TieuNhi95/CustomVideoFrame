@@ -14,7 +14,7 @@ import com.twilio.video.Camera2Capturer
 import com.twilio.video.CameraCapturer
 import com.twilio.video.VideoCapturer
 
-class CameraCapturerCompat(context: Context, cameraSource: CameraCapturer.CameraSource) {
+class CameraCapturerCompat(context: Context, cameraSource: CameraCapturer.CameraSource,img : ImageView) {
     private val TAG = "CameraCapturerCompat"
 
     private var camera1Capturer: CustomCameraCapturer? = null
@@ -25,19 +25,6 @@ class CameraCapturerCompat(context: Context, cameraSource: CameraCapturer.Camera
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private var cameraManager: CameraManager? = null
-    private val camera2Listener = object : Camera2Capturer.Listener {
-        override fun onFirstFrameAvailable() {
-            Log.i(TAG, "onFirstFrameAvailable")
-        }
-
-        override fun onCameraSwitched(newCameraId: String) {
-            Log.i(TAG, "onCameraSwitched: newCameraId = $newCameraId")
-        }
-
-        override fun onError(camera2CapturerException: Camera2Capturer.Exception) {
-            Log.e(TAG, camera2CapturerException.toString())
-        }
-    }
     val cameraSource: CameraCapturer.CameraSource
         get() {
             return camera1Capturer!!.cameraSource
@@ -55,6 +42,10 @@ class CameraCapturerCompat(context: Context, cameraSource: CameraCapturer.Camera
 
     init {
             camera1Capturer = CustomCameraCapturer(context, cameraSource)
+        camera1Capturer!!.setFrameListener {
+            img.post { img.setImageBitmap(it) }
+//            img.setImageBitmap(it)
+        }
     }
 
     fun switchCamera() {
